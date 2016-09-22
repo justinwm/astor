@@ -168,6 +168,7 @@ public class AstorMain extends AbstractMain {
 		astorCore.setProgramValidator(new ProcessValidator());
 
 		// Initialize Population
+		// Target: TO DO
 		astorCore.createInitialPopulation();
 
 		// After initializing population, we set up specific validation
