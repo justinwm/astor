@@ -72,8 +72,10 @@ public class JUnitDirectExecutorProcess extends JUnitExecutorProcess {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if (success)
+		if (success) {
+			log.info("Success validating");
 			return tr;
+		}
 		else {
 			log.error("Error reading the validation process\n output: \n" + out + " \n error: "
 					+ getProcessError(p.getErrorStream()));

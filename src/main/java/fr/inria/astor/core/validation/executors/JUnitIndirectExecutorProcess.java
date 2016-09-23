@@ -66,8 +66,10 @@ public class JUnitIndirectExecutorProcess extends JUnitExecutorProcess{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if (success)
+		if (success) {
+			log.info("Successfully validating a patch");
 			return tr;
+		}
 		else {
 			log.error("Error reading the validation process\n output: \n"+
 			out +" \n error: "+getProcessError(p.getErrorStream()));

@@ -170,7 +170,8 @@ public class AstorMain extends AbstractMain {
 		// Initialize Population
 		// Target: TO DO
 		astorCore.createInitialPopulation();
-
+		
+		
 		// After initializing population, we set up specific validation
 		// mechanism
 		// Select the kind of validation of a variant.
