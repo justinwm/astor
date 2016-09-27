@@ -72,7 +72,7 @@ public class JGenProg extends AstorCoreEngine {
 				}
 				suspicious.add(new SuspiciousCode(split[0], split[1], Integer.parseInt(split[2]), Double.parseDouble(split[3]),key));
 			}
-			this.initializePopulation(suspicious);
+			this.initPopulation(suspicious);
 		} else {
 			List<SuspiciousCode> suspicious = projectFacade.calculateSuspicious(faultLocalization);
 			this.initPopulation(suspicious);
