@@ -60,7 +60,7 @@ public class JGenProg extends AstorCoreEngine {
 			List<SuspiciousCode> suspicious = new ArrayList<SuspiciousCode>();
 			log.info("Using Buggy Locations");
 			String loc = ConfigurationProperties.getProperty("location");
-			String filename = loc + File.separator + "fixtingLocation.txt";
+			String filename = loc + File.separator + "fixingLocation.txt";
 			List<String> lines = FileUtil.fileToLines(filename);
 			HashMap<Integer,Integer> key = new HashMap<Integer,Integer>();
 			key.put(1, 1);
