@@ -561,7 +561,7 @@ public abstract class AbstractMain {
 		if (srcdefault.exists() && testdefault.exists())
 			return Arrays.asList(new String[] { ConfigurationProperties.getProperty("srcjavafolder"),
 					ConfigurationProperties.getProperty("srctestfolder") });
-
+		
 		File src = new File(originalProjectRoot + File.separator + "src/main/java");
 		if (src.exists())
 			return Arrays.asList(new String[] { "src/main/java", "src/test/java" });

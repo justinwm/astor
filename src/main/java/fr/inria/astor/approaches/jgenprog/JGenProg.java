@@ -2,6 +2,7 @@ package fr.inria.astor.approaches.jgenprog;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.martiansoftware.jsap.JSAPException;
@@ -22,6 +23,7 @@ import fr.inria.astor.core.manipulation.sourcecode.BlockReificationScanner;
 import fr.inria.astor.core.setup.ConfigurationProperties;
 import fr.inria.astor.core.setup.FinderTestCases;
 import fr.inria.astor.core.setup.ProjectRepairFacade;
+import fr.inria.astor.util.FileUtil;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtType;
@@ -52,10 +54,29 @@ public class JGenProg extends AstorCoreEngine {
 		if (ConfigurationProperties.getPropertyBool("skipfaultlocalization")) {
 			// We dont use FL, so at this point the do not have suspicious
 			this.initPopulation(new ArrayList<SuspiciousCode>());
+		} else if (ConfigurationProperties.getPropertyBool("useFixingLocation")) {
+			// We use the buggy location identified manually instead of fault localization
+			
+			List<SuspiciousCode> suspicious = new ArrayList<SuspiciousCode>();
+			log.info("Using Buggy Locations");
+			String loc = ConfigurationProperties.getProperty("location");
+			String filename = loc + File.separator + "fixtingLocation.txt";
+			List<String> lines = FileUtil.fileToLines(filename);
+			HashMap<Integer,Integer> key = new HashMap<Integer,Integer>();
+			key.put(1, 1);
+			for (String line : lines) {
+				String[] split = line.split("\t");
+				if (split.length != 4) {
+					log.info("Error:\t FixingLocation Formating Error");
+					continue;
+				}
+				suspicious.add(new SuspiciousCode(split[0], split[1], Integer.parseInt(split[2]), Double.parseDouble(split[3]),key));
+			}
+			this.initializePopulation(suspicious);
 		} else {
 			List<SuspiciousCode> suspicious = projectFacade.calculateSuspicious(faultLocalization);
 			this.initPopulation(suspicious);
-		}
+		} 
 	}
 	
 	
