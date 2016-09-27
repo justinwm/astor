@@ -110,11 +110,13 @@ public class GZoltarFaultLocalization implements IFaultLocalization{
 			if (gzoltarStatement.getSuspiciousness() >= thr && isSource(compName, srcFolder)) {
 				logger.debug("Suspicious: line " + compName + ":" + gzoltarStatement.getMethod().toString() + " l: " + gzoltarStatement.getLineNumber() + ", susp "
 						+ df.format(gzoltarStatement.getSuspiciousness()));
-				logger.info("Suspicious: line " + compName + ":" + gzoltarStatement.getMethod().toString() + " l: " + gzoltarStatement.getLineNumber() + ", susp "
-						+ df.format(gzoltarStatement.getSuspiciousness()));
+//				logger.info("Suspicious: line " + compName + ":" + gzoltarStatement.getMethod().toString() + " l: " + gzoltarStatement.getLineNumber() + ", susp "
+//						+ df.format(gzoltarStatement.getSuspiciousness()));
 				SuspiciousCode suspcode = new SuspiciousCode(compName, gzoltarStatement.getMethod().toString(), gzoltarStatement.getLineNumber(),
 						gzoltarStatement.getSuspiciousness(),
 						gzoltarStatement.getCountMap());
+				logger.info("Suspicious line:" + suspcode.toString());
+				
 				candidates.add(suspcode);
 				
 			}
