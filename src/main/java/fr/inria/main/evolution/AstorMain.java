@@ -376,6 +376,7 @@ public class AstorMain extends AbstractMain {
 	 * @throws Exception
 	 * @throws ParseException
 	 */
+	
 	public static void main(String[] args) throws Exception {
 		AstorMain m = new AstorMain();
 		m.execute(args);

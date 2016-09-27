@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -12,8 +13,11 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import com.gzoltar.core.GZoltar;
+import com.gzoltar.core.components.Component;
 import com.gzoltar.core.components.Statement;
 import com.gzoltar.core.instr.testing.TestResult;
+import com.gzoltar.core.spectra.Spectra;
+
 
 import fr.inria.astor.core.faultlocalization.entity.SuspiciousCode;
 import fr.inria.astor.core.setup.ConfigurationProperties;
@@ -86,8 +90,9 @@ public class GZoltarFaultLocalization implements IFaultLocalization{
 				alltest.add(testName);
 				casesTest += testName + File.pathSeparator;
 			}
+			
 		}
-		
+			
 		if(ConfigurationProperties.getPropertyBool("ignoreflakyinfl")){
 			addFlakyFailingTestToIgnoredList(failingTestCases);
 		}
@@ -95,16 +100,17 @@ public class GZoltarFaultLocalization implements IFaultLocalization{
 		ConfigurationProperties.properties.setProperty("testcasesregression", casesTest);
 		logger.info("Gzoltar Test Result Total:" + sum[0] + ", fails: " + sum[1] + ", GZoltar suspicious "
 				+ gz.getSuspiciousStatements().size());
-
+		
 		DecimalFormat df = new DecimalFormat("#.###");
 		int maxSuspCandidates = ConfigurationProperties.getPropertyInt("maxsuspcandidates");
 		for (Statement gzoltarStatement : gz.getSuspiciousStatements()) {
 			String compName = gzoltarStatement.getMethod().getParent().getLabel();
-	
+			BitSet bs = gzoltarStatement.getCoverage();
+			
 			if (gzoltarStatement.getSuspiciousness() >= thr && isSource(compName, srcFolder)) {
-				logger.debug("Suspicious: line " + compName + " l: " + gzoltarStatement.getLineNumber() + ", susp "
+				logger.debug("Suspicious: line " + compName + ":" + gzoltarStatement.getMethod().toString() + " l: " + gzoltarStatement.getLineNumber() + ", susp "
 						+ df.format(gzoltarStatement.getSuspiciousness()));
-				logger.info("Suspicious: line " + compName + " l: " + gzoltarStatement.getLineNumber() + ", susp "
+				logger.info("Suspicious: line " + compName + ":" + gzoltarStatement.getMethod().toString() + " l: " + gzoltarStatement.getLineNumber() + ", susp "
 						+ df.format(gzoltarStatement.getSuspiciousness()));
 				SuspiciousCode suspcode = new SuspiciousCode(compName, gzoltarStatement.getMethod().toString(), gzoltarStatement.getLineNumber(),
 						gzoltarStatement.getSuspiciousness(),

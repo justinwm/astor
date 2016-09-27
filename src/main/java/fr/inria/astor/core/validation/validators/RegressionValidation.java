@@ -18,6 +18,7 @@ public class RegressionValidation extends ProcessValidator {
 
 		try {
 			ProgramVariantValidationResult failingValidation = super.runFailing(mutatedVariant, projectFacade);
+			log.info("Failing Val: " + failingValidation);
 			log.debug("Failing Val: " + failingValidation);
 			if (failingValidation != null && failingValidation.wasSuccessful()) {
 

@@ -57,7 +57,8 @@ public class JGenProg extends AstorCoreEngine {
 			this.initPopulation(suspicious);
 		}
 	}
-
+	
+	
 	
 	/**
 	 * By default, it initializes the spoon model. It should not be created
@@ -93,7 +94,7 @@ public class JGenProg extends AstorCoreEngine {
 			this.ingredientSearchStrategy.getIngredientSpace().defineSpace(originalVariant);
 		}
 
-		 setFitnessOfPopulation();
+		setFitnessOfPopulation();
 	}
 	
 	protected void setFitnessOfPopulation(){
