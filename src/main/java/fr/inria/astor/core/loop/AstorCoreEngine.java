@@ -562,6 +562,11 @@ public abstract class AstorCoreEngine {
 		if (oneOperationCreated && !ConfigurationProperties.getPropertyBool("resetoperations")) {
 			updateVariantGenList(variant, generation);
 		}
+		
+		log.info("\n--Summary Creation: for variant " + variant + " gen mutated: " + genMutated + " , gen not mut: "
+				+ notmut + ", gen not applied  " + notapplied + "\n ");
+
+		
 		log.debug("\n--Summary Creation: for variant " + variant + " gen mutated: " + genMutated + " , gen not mut: "
 				+ notmut + ", gen not applied  " + notapplied + "\n ");
 

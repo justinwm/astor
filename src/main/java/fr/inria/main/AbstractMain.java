@@ -170,6 +170,7 @@ public abstract class AbstractMain {
 		options.addOption("excludeRegression", false, "Exclude test regression execution");
 
 		options.addOption("ignoredtestcases", true, "Test cases to ignore");
+		options.addOption("useFixingLocation", true, "Use fixing locations or not");
 
 		options.addOption("dse", false, "Apply DSE into Evosuite");
 
@@ -277,7 +278,11 @@ public abstract class AbstractMain {
 
 		if (cmd.hasOption("id"))
 			ConfigurationProperties.properties.setProperty("projectIdentifier", cmd.getOptionValue("id"));
-
+		
+		if (cmd.hasOption("useFixingLocation"))
+			ConfigurationProperties.properties.setProperty("useFixingLocation", cmd.getOptionValue("useFixingLocation"));
+		
+		
 		if (cmd.hasOption("mode"))
 			ConfigurationProperties.properties.setProperty("mode", cmd.getOptionValue("mode"));
 
