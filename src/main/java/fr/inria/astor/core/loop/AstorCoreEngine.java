@@ -656,6 +656,7 @@ public abstract class AstorCoreEngine {
 				sum += susp;
 				WeightCtElement w = new WeightCtElement(gen, 0);
 				w.weight = susp;
+				log.info(sum + "\t" + w.toString());
 				we.add(w);
 			}
 

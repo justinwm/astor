@@ -70,7 +70,9 @@ public class JGenProg extends AstorCoreEngine {
 					log.info("Error:\t FixingLocation Formating Error");
 					continue;
 				}
-				suspicious.add(new SuspiciousCode(split[0], split[1], Integer.parseInt(split[2]), Double.parseDouble(split[3]),key));
+				SuspiciousCode sl = new SuspiciousCode(split[0], split[1], Integer.parseInt(split[2]), Double.parseDouble(split[3]),key);
+				log.info(sl.toString());
+				suspicious.add(sl);
 			}
 			this.initPopulation(suspicious);
 		} else {
