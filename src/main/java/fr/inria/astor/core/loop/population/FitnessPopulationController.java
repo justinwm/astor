@@ -25,7 +25,7 @@ public class FitnessPopulationController implements PopulationController {
 
 	/**
 	 * Select the program instances that will pass to the next generation. The
-	 * rest are discarted.
+	 * rest are discarded.
 	 * 
 	 * @param instances2
 	 * @param childVariants

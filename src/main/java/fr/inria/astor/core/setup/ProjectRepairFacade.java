@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +18,7 @@ import org.apache.log4j.Logger;
 import fr.inria.astor.core.entities.ProgramVariant;
 import fr.inria.astor.core.faultlocalization.IFaultLocalization;
 import fr.inria.astor.core.faultlocalization.entity.SuspiciousCode;
+import fr.inria.astor.util.FileUtil;
 
 /**
  * 
@@ -170,7 +174,27 @@ public class ProjectRepairFacade {
 		URL[] cp = classpath.toArray(new URL[0]);
 		return cp;
 	}
-
+	
+	public List<SuspiciousCode> readSuspicious() throws Exception {
+		List<SuspiciousCode> suspicious = new ArrayList<SuspiciousCode>();
+		
+		String loc = ConfigurationProperties.getProperty("location");
+		String filename = loc + File.separator + "fixingLocation.txt";
+		List<String> lines = FileUtil.fileToLines(filename);
+		HashMap<Integer,Integer> key = new HashMap<Integer,Integer>();
+		key.put(1, 1);
+		for (String line : lines) {
+			String[] split = line.split("\t");
+			if (split.length != 4) {
+				continue;
+			}
+			SuspiciousCode sl = new SuspiciousCode(split[0], split[1], Integer.parseInt(split[2]), Double.parseDouble(split[3]),key);
+			suspicious.add(sl);
+		}
+		Collections.sort(suspicious, new ComparatorCandidates());
+		return suspicious;
+	}
+	
 	public List<SuspiciousCode> calculateSuspicious(IFaultLocalization faultLocalization) throws Exception {
 		List<SuspiciousCode> candidates = this.calculateSuspicious(faultLocalization,
 				ConfigurationProperties.getProperty("location") + File.separator
@@ -240,4 +264,15 @@ public class ProjectRepairFacade {
 		this.setUpProperties = properties;
 	}
 
+	public class ComparatorCandidates implements Comparator<SuspiciousCode> {
+
+		@Override
+		public int compare(SuspiciousCode o1, SuspiciousCode o2) {
+			if (o1 == null || o2 == null) {
+				return 0;
+			}
+			return Double.compare(o2.getSuspiciousValue(), o1.getSuspiciousValue());
+		}
+
+	}
 }

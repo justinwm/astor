@@ -104,7 +104,6 @@ public abstract class AstorCoreEngine {
 		log.info("\n----Starting Solution Search");
 		//LogManager.getRootLogger().setLevel(Level.DEBUG);
 		
-
 		generationsExecuted = 0;
 		boolean stop = false;
 
@@ -629,7 +628,7 @@ public abstract class AstorCoreEngine {
 
 		if ("weight".equals(mode))
 			return getWeightGenList(genList);
-
+		
 		if ("random".equals(mode)) {
 			List<ModificationPoint> shuffList = new ArrayList<ModificationPoint>(genList);
 			Collections.shuffle(shuffList);
@@ -661,7 +660,7 @@ public abstract class AstorCoreEngine {
 				sum += susp;
 				WeightCtElement w = new WeightCtElement(gen, 0);
 				w.weight = susp;
-				log.info(sum + "\t" + w.toString());
+//				log.info(sum + "\t" + w.toString());
 				we.add(w);
 			}
 

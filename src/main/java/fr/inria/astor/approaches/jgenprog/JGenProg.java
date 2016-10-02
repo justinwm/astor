@@ -2,6 +2,8 @@ package fr.inria.astor.approaches.jgenprog;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import fr.inria.astor.core.entities.ProgramVariant;
 import fr.inria.astor.core.entities.SuspiciousModificationPoint;
 import fr.inria.astor.core.faultlocalization.GZoltarFaultLocalization;
 import fr.inria.astor.core.faultlocalization.IFaultLocalization;
+import fr.inria.astor.core.faultlocalization.GZoltarFaultLocalization.ComparatorCandidates;
 import fr.inria.astor.core.faultlocalization.entity.SuspiciousCode;
 import fr.inria.astor.core.loop.AstorCoreEngine;
 import fr.inria.astor.core.loop.spaces.ingredients.IngredientSearchStrategy;
@@ -57,22 +60,11 @@ public class JGenProg extends AstorCoreEngine {
 		} else if (ConfigurationProperties.getPropertyBool("useFixingLocation")) {
 			// We use the buggy location identified manually instead of fault localization
 			
-			List<SuspiciousCode> suspicious = new ArrayList<SuspiciousCode>();
 			log.info("Using Buggy Locations");
-			String loc = ConfigurationProperties.getProperty("location");
-			String filename = loc + File.separator + "fixingLocation.txt";
-			List<String> lines = FileUtil.fileToLines(filename);
-			HashMap<Integer,Integer> key = new HashMap<Integer,Integer>();
-			key.put(1, 1);
-			for (String line : lines) {
-				String[] split = line.split("\t");
-				if (split.length != 4) {
-					log.info("Error:\t FixingLocation Formating Error");
-					continue;
-				}
-				SuspiciousCode sl = new SuspiciousCode(split[0], split[1], Integer.parseInt(split[2]), Double.parseDouble(split[3]),key);
-				log.info(sl.toString());
-				suspicious.add(sl);
+			List<SuspiciousCode> suspicious = projectFacade.readSuspicious();
+			int index = 0;
+			for (SuspiciousCode suspiciou : suspicious) {
+				log.info(index++ + "\t" + suspiciou.toString());
 			}
 			this.initPopulation(suspicious);
 		} else {
@@ -80,8 +72,6 @@ public class JGenProg extends AstorCoreEngine {
 			this.initPopulation(suspicious);
 		} 
 	}
-	
-	
 	
 	/**
 	 * By default, it initializes the spoon model. It should not be created
@@ -302,3 +292,5 @@ public class JGenProg extends AstorCoreEngine {
 
 
 }
+
+

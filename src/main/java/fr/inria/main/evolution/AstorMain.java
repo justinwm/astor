@@ -90,8 +90,6 @@ public class AstorMain extends AbstractMain {
 			 operatorSpace = createCustomOperatorSpace(customOp);
 		}
 		
-		
-		
 		if (ExecutionMode.jKali.equals(mode)) {
 			astorCore = new ExhaustiveSearchEngine(mutSupporter, projectFacade);
 			if(operatorSpace == null)
