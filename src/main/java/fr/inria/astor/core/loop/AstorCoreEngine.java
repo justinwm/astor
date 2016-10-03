@@ -562,8 +562,8 @@ public abstract class AstorCoreEngine {
 			updateVariantGenList(variant, generation);
 		}
 		
-		log.info("\n--Summary Creation: for variant " + variant + " gen mutated: " + genMutated + " , gen not mut: "
-				+ notmut + ", gen not applied  " + notapplied + "\n ");
+		log.info("--Summary Creation: for variant " + variant + " gen mutated: " + genMutated + " , gen not mut: "
+				+ notmut + ", gen not applied  " + notapplied);
 
 		
 		log.debug("\n--Summary Creation: for variant " + variant + " gen mutated: " + genMutated + " , gen not mut: "
