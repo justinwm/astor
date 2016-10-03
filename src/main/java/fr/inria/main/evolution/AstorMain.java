@@ -102,7 +102,7 @@ public class AstorMain extends AbstractMain {
 			if(operatorSpace == null)
 				operatorSpace = new jGenProgSpace();
 			//We retrieve strategy for navigating operator space
-			String opStrategyClassName = 	ConfigurationProperties.properties.getProperty("opselectionstrategy");
+			String opStrategyClassName = ConfigurationProperties.properties.getProperty("opselectionstrategy");
 			if(opStrategyClassName != null){
 				OperatorSelectionStrategy strategy =  createOperationSelectionStrategy(opStrategyClassName,operatorSpace);
 				astorCore.setOperatorSelectionStrategy(strategy);

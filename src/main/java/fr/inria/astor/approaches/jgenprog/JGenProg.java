@@ -61,6 +61,10 @@ public class JGenProg extends AstorCoreEngine {
 			// We use the buggy location identified manually instead of fault localization
 			
 			log.info("Using Buggy Locations");
+			// Run spectrum based fault localization to obtain some properties
+			// But we do not use the results of the localization results
+			projectFacade.calculateSuspicious(faultLocalization);
+			
 			List<SuspiciousCode> suspicious = projectFacade.readSuspicious();
 			int index = 0;
 			for (SuspiciousCode suspiciou : suspicious) {
