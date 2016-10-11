@@ -562,7 +562,8 @@ public abstract class AbstractMain {
 
 		File testdefault = new File(
 				originalProjectRoot + File.separator + ConfigurationProperties.getProperty("srctestfolder"));
-
+		System.out.println(srcdefault.getAbsolutePath() + "\t" + testdefault.getAbsolutePath());
+		System.out.println(srcdefault.exists() + "\t" + testdefault.exists());
 		if (srcdefault.exists() && testdefault.exists())
 			return Arrays.asList(new String[] { ConfigurationProperties.getProperty("srcjavafolder"),
 					ConfigurationProperties.getProperty("srctestfolder") });

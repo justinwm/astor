@@ -66,6 +66,7 @@ public class ProjectRepairFacade {
 
 	public void copyOriginalCode(String mutIdentifier) throws IOException {
 			List<String>  dirs = getProperties().getOriginalDirSrc();
+			System.out.println(dirs.toString());
 			//The first element corresponds to application source
 			String srcApp = dirs.get(0);
 			//the second to the test folder
