@@ -60,7 +60,7 @@ public class JGenProg extends AstorCoreEngine {
 		for (int num : nums) {
 			aveg += Math.abs(line - num);
 		}
-		return aveg / nums.size();
+		return aveg * 1.0 / nums.size();
 	}
 	
 	public void createInitialPopulation() throws Exception {
@@ -86,7 +86,7 @@ public class JGenProg extends AstorCoreEngine {
 				if (fileFixLocations.containsKey(susp.getClassName())) {
 					
 					double averageDistance = getSuspiciousScore(susp.getLineNumber(), fileFixLocations.get(susp.getClassName()));
-					susp.setSusp(1 / Math.pow(averageDistance + 1, 0.5));
+					susp.setSusp(1.0 / Math.pow(averageDistance + 1, 0.5));
 					
 					for (int i = 0; i < fixSuspicious.size(); i++) {
 						if (susp.getClassName().equals(fixSuspicious.get(i).getClassName()) && susp.getLineNumber() == fixSuspicious.get(i).getLineNumber())

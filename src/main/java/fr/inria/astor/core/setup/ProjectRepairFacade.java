@@ -266,8 +266,8 @@ public class ProjectRepairFacade {
 		List<SuspiciousCode> suspiciousStatemens = faultLocalization.searchSuspicious(locationBytecode,
 				testcasesToExecute, listTOInst, classPath, locationSrc);
 
-		if (suspiciousStatemens == null || suspiciousStatemens.isEmpty())
-			throw new IllegalArgumentException("No suspicious gen for analyze");
+//		if (suspiciousStatemens == null || suspiciousStatemens.isEmpty())
+//			throw new IllegalArgumentException("No suspicious gen for analyze");
 
 		List<SuspiciousCode> filtercandidates = new ArrayList<SuspiciousCode>();
 
