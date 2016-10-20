@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import com.martiansoftware.jsap.JSAPException;
@@ -53,6 +54,15 @@ public class JGenProg extends AstorCoreEngine {
 		this.faultLocalization = faultLocalization;
 	}
 	
+	// Obtain the average distance between the suspicious line and the buggy line
+	private double getSuspiciousScore(int line, HashSet<Integer> nums) {
+		double aveg = 0.0;
+		for (int num : nums) {
+			aveg += Math.abs(line - num);
+		}
+		return aveg / nums.size();
+	}
+	
 	public void createInitialPopulation() throws Exception {
 		if (ConfigurationProperties.getPropertyBool("skipfaultlocalization")) {
 			// We dont use FL, so at this point the do not have suspicious
@@ -63,9 +73,18 @@ public class JGenProg extends AstorCoreEngine {
 			log.info("Using Buggy Locations");
 			// Run spectrum based fault localization to obtain some properties
 			// But we do not use the results of the localization results
-			projectFacade.calculateSuspicious(faultLocalization);
+			List<SuspiciousCode> suspicious = projectFacade.calculateSuspicious(faultLocalization);
+			HashMap<String, HashSet<Integer>> fileFixLocations = projectFacade.readFixLine();
+			for (String file : fileFixLocations.keySet()) {
+				log.info(file + "\t" + fileFixLocations.get(file).toString());
+			}
+			for (SuspiciousCode susp : suspicious) {
+				if (fileFixLocations.containsKey(susp.getClassName())) {
+					double averageDistance = getSuspiciousScore(susp.getLineNumber(), fileFixLocations.get(susp.getClassName()));
+					susp.setSusp(1 / Math.pow(averageDistance + 1, 0.5));
+				}
+			}
 			
-			List<SuspiciousCode> suspicious = projectFacade.readSuspicious();
 			int index = 0;
 			for (SuspiciousCode suspiciou : suspicious) {
 				log.info(index++ + "\t" + suspiciou.toString());

@@ -15,6 +15,7 @@ import java.util.Set;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
+import entity.FixLine;
 import fr.inria.astor.core.entities.ProgramVariant;
 import fr.inria.astor.core.faultlocalization.IFaultLocalization;
 import fr.inria.astor.core.faultlocalization.entity.SuspiciousCode;
@@ -194,6 +195,31 @@ public class ProjectRepairFacade {
 		}
 		Collections.sort(suspicious, new ComparatorCandidates());
 		return suspicious;
+	}
+	
+	public HashMap<String, HashSet<Integer>> readFixLine() throws Exception {
+		HashMap<String, HashSet<Integer>> fileFixLocs = new HashMap<String, HashSet<Integer>>();
+		String loc = ConfigurationProperties.getProperty("location");
+		String[] split = loc.split(File.separator);
+		String filename = split[split.length - 1];
+		String[] split2 = filename.split("_");
+		filename = split2[0] + "_" + split2[1] + "_info.txt";
+		String bugInfo = "";
+		for (int i = 0; i < split.length - 1; i++)
+			bugInfo += split[i] + File.separator;
+		bugInfo += filename;
+		
+		List<String> lines = FileUtil.fileToLines(bugInfo);
+		for (String line : lines) {
+			if (line.startsWith("s")) {
+				split = line.split("\t");
+				String className = split[1];
+				fileFixLocs.put(className, new HashSet<Integer>());
+				for (int i = 2; i < split.length; i++)
+					fileFixLocs.get(className).add(Integer.parseInt(split[i]));
+			}
+		}
+		return fileFixLocs;
 	}
 	
 	public List<SuspiciousCode> calculateSuspicious(IFaultLocalization faultLocalization) throws Exception {
