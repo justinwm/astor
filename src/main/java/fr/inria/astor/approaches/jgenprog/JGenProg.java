@@ -73,23 +73,41 @@ public class JGenProg extends AstorCoreEngine {
 			log.info("Using Buggy Locations");
 			// Run spectrum based fault localization to obtain some properties
 			// But we do not use the results of the localization results
+			List<SuspiciousCode> fixSuspicious = projectFacade.readSuspicious();
+			boolean[] isCovered = new boolean[fixSuspicious.size()];
 			List<SuspiciousCode> suspicious = projectFacade.calculateSuspicious(faultLocalization);
 			HashMap<String, HashSet<Integer>> fileFixLocations = projectFacade.readFixLine();
+			
 			for (String file : fileFixLocations.keySet()) {
 				log.info(file + "\t" + fileFixLocations.get(file).toString());
 			}
+			
 			for (SuspiciousCode susp : suspicious) {
 				if (fileFixLocations.containsKey(susp.getClassName())) {
+					
 					double averageDistance = getSuspiciousScore(susp.getLineNumber(), fileFixLocations.get(susp.getClassName()));
 					susp.setSusp(1 / Math.pow(averageDistance + 1, 0.5));
+					
+					for (int i = 0; i < fixSuspicious.size(); i++) {
+						if (susp.getClassName().equals(fixSuspicious.get(i).getClassName()) && susp.getLineNumber() == fixSuspicious.get(i).getLineNumber())
+							isCovered[i] = true;
+					}
 				}
 			}
 			
+			for (int i = 0; i < fixSuspicious.size(); i++) {
+				if (!isCovered[i])
+					suspicious.add(fixSuspicious.get(i));
+			}
 			int index = 0;
 			for (SuspiciousCode suspiciou : suspicious) {
 				log.info(index++ + "\t" + suspiciou.toString());
 			}
+			
+			Collections.sort(suspicious, new ComparatorCandidates());
 			this.initPopulation(suspicious);
+			
+			
 		} else {
 			List<SuspiciousCode> suspicious = projectFacade.calculateSuspicious(faultLocalization);
 			this.initPopulation(suspicious);
@@ -314,6 +332,18 @@ public class JGenProg extends AstorCoreEngine {
 	}
 
 
+	public class ComparatorCandidates implements Comparator<SuspiciousCode> {
+
+		@Override
+		public int compare(SuspiciousCode o1, SuspiciousCode o2) {
+			if (o1 == null || o2 == null) {
+				return 0;
+			}
+			return Double.compare(o2.getSuspiciousValue(), o1.getSuspiciousValue());
+		}
+
+	}
+	
 }
 
 
