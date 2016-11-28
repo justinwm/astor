@@ -54,6 +54,7 @@ public class InsertAfterOp extends AstorOperator {
 			throw new IllegalStateException("Undo: Not valid fix position");
 		}
 	}
+	
 	@Override
 	public boolean updateProgramVariant(ModificationInstance opInstance, ProgramVariant p) {
 		return addPoint(p, opInstance);
