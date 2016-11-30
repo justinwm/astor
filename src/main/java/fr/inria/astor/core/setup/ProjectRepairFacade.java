@@ -15,6 +15,8 @@ import java.util.Set;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
+import com.gzoltar.lib.shaded.jline.internal.Log;
+
 import fr.inria.astor.core.entities.ProgramVariant;
 import fr.inria.astor.core.faultlocalization.IFaultLocalization;
 import fr.inria.astor.core.faultlocalization.entity.SuspiciousCode;
@@ -180,7 +182,14 @@ public class ProjectRepairFacade {
 		List<SuspiciousCode> suspicious = new ArrayList<SuspiciousCode>();
 		
 		String loc = ConfigurationProperties.getProperty("location");
-		String filename = loc + File.separator + "fixingLocation.txt";
+		String filename = loc;
+		if (ConfigurationProperties.hasProperty("fixLocation")) {
+			String fixLocation = ConfigurationProperties.getProperty("fixLocation");
+			filename += File.separator + "fixLoc" + File.separator + fixLocation;
+		} else {
+			filename += File.separator + "fixingLocation.txt";
+		}
+		logger.info("FixingLocation used:\t" + filename);
 		List<String> lines = FileUtil.fileToLines(filename);
 		HashMap<Integer,Integer> key = new HashMap<Integer,Integer>();
 		key.put(1, 1);
