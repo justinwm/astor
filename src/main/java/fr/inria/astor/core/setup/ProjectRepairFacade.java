@@ -182,7 +182,10 @@ public class ProjectRepairFacade {
 		String filename = loc;
 		if (ConfigurationProperties.hasProperty("fixLocation")) {
 			String fixLocation = ConfigurationProperties.getProperty("fixLocation");
-			filename += File.separator + "fixLoc" + File.separator + fixLocation;
+			if (fixLocation.equals("fixingLocation.txt"))
+				filename += File.separator + "fixingLocation.txt";
+			else
+				filename += File.separator + "fixLoc" + File.separator + fixLocation;
 		} else {
 			filename += File.separator + "fixingLocation.txt";
 		}

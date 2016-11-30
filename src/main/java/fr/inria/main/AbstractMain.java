@@ -171,7 +171,7 @@ public abstract class AbstractMain {
 
 		options.addOption("ignoredtestcases", true, "Test cases to ignore");
 		options.addOption("useFixingLocation", true, "Use fixing locations or not");
-
+		options.addOption("fixLocation", true, "the location of the fixing file");
 		options.addOption("dse", false, "Apply DSE into Evosuite");
 
 	}
