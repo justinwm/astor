@@ -15,7 +15,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import com.martiansoftware.jsap.JSAPException;
-
 import fr.inria.astor.core.entities.ModificationInstance;
 import fr.inria.astor.core.entities.ModificationPoint;
 import fr.inria.astor.core.entities.ProgramVariant;
