@@ -395,7 +395,8 @@ public abstract class AstorCoreEngine {
 			log.debug("-Valid?: " + validInstance + ", fitness " + programVariant.getFitness());
 			if (validInstance) {
 				log.info("-Found Solution, child variant #" + programVariant.getId());
-				saveStaticSucessful(generation);
+				saveStaticSucessful(
+						generation);
 				if (ConfigurationProperties.getPropertyBool("savesolution")) {
 					mutatorSupporter.saveSourceCodeOnDiskProgramVariant(programVariant, srcOutput);
 					mutatorSupporter.saveSolutionData(programVariant, srcOutput, generation);
