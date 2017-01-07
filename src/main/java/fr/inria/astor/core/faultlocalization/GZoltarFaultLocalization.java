@@ -56,8 +56,8 @@ public class GZoltarFaultLocalization implements IFaultLocalization{
 		GZoltar gz = new GZoltar(projLocation);
 
 		// 2. Add Package/Class names to instrument
-		// 3. Add Package/Test Case/Test Suite names to execute
-		// Example: gz.addPackageToInstrument("org.test1.Person");
+		// 3. Add Package/Test Case/Test Suite  to execute
+		// Example: gz.addPackageToInstrument("org.namestest1.Person");
 		for (String to : toInstrument) {
 			gz.addPackageToInstrument(to);
 		}
