@@ -285,9 +285,6 @@ public abstract class AbstractMain {
 		if (cmd.hasOption("fixLocation"))
 			ConfigurationProperties.properties.setProperty("fixLocation", cmd.getOptionValue("fixLocation"));
 		
-		if (cmd.hasOption("sampleTestId"))
-			ConfigurationProperties.properties.setProperty("sampleTestId", cmd.getOptionValue("sampleTestId"));
-		
 		if (cmd.hasOption("mode"))
 			ConfigurationProperties.properties.setProperty("mode", cmd.getOptionValue("mode"));
 

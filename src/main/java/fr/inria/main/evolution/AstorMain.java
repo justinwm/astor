@@ -35,7 +35,6 @@ import fr.inria.astor.core.setup.ConfigurationProperties;
 import fr.inria.astor.core.setup.FinderTestCases;
 import fr.inria.astor.core.setup.ProjectRepairFacade;
 import fr.inria.astor.core.validation.validators.ProcessEvoSuiteValidator;
-import fr.inria.astor.core.validation.validators.ProcessJUnitCoreValidator;
 import fr.inria.astor.core.validation.validators.ProcessValidator;
 import fr.inria.astor.core.validation.validators.ProgramValidator;
 import fr.inria.main.AbstractMain;
@@ -177,9 +176,6 @@ public class AstorMain extends AbstractMain {
 		String validationArgument = ConfigurationProperties.properties.getProperty("validation");
 		if (validationArgument.equals("evosuite")) {
 			ProcessEvoSuiteValidator validator = new ProcessEvoSuiteValidator();
-			astorCore.setProgramValidator(validator);
-		} else if (validationArgument.equals("junitCore") && ConfigurationProperties.properties.containsKey("sampleTestId")) {
-			ProcessJUnitCoreValidator validator = new ProcessJUnitCoreValidator(ConfigurationProperties.properties.getProperty("sampleTestId"));
 			astorCore.setProgramValidator(validator);
 		} else
 		// if validation is different to default (process)
