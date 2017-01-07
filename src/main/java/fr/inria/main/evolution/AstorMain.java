@@ -175,11 +175,12 @@ public class AstorMain extends AbstractMain {
 		// mechanism
 		// Select the kind of validation of a variant.
 		String validationArgument = ConfigurationProperties.properties.getProperty("validation");
+		String sampleTestId = ConfigurationProperties.properties.getProperty("sampleTestId");
 		if (validationArgument.equals("evosuite")) {
 			ProcessEvoSuiteValidator validator = new ProcessEvoSuiteValidator();
 			astorCore.setProgramValidator(validator);
-		} else if (validationArgument.equals("junitCore") && ConfigurationProperties.properties.containsKey("sampleTestId")) {
-			ProcessJUnitCoreValidator validator = new ProcessJUnitCoreValidator(ConfigurationProperties.properties.getProperty("sampleTestId"));
+		} else if (validationArgument.equals("junitCore") && !sampleTestId.equals("0")) {
+			ProcessJUnitCoreValidator validator = new ProcessJUnitCoreValidator(sampleTestId);
 			astorCore.setProgramValidator(validator);
 		} else
 		// if validation is different to default (process)
