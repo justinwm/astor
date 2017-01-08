@@ -41,7 +41,6 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 			log.info("-Running JUnitCore validation:\t" + sampleTestId);
 			currentStats.numberOfFailingTestCaseExecution++;
 			
-			long t1 = System.currentTimeMillis();
 			String jvmPath = ConfigurationProperties.getProperty("jvm4testexecution");
 			String classpath = urlArrayToString(bc);
 			
@@ -50,43 +49,70 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 			String systemcp = 	defineInitialClasspath();
 			classpath = systemcp + File.pathSeparator + classpath;
 			
-			List<String> command = new ArrayList<String>();
-			command.add(jvmPath);
-			command.add("-Xmx2048m");
-			command.add("-cp");
-			command.add(classpath);
-			command.add("JUnitCore_" + sampleTestId);
+			List<String> failing = new ArrayList<String>();
+			failing.add(jvmPath);
+			failing.add("-Xmx2048m");
+			failing.add("-cp");
+			failing.add(classpath);
+			failing.add("JUnitCore_" + sampleTestId + "_Failing");
 			
-			ProcessBuilder pb = new ProcessBuilder(command.toArray(new String[command.size()]));
+			ProcessBuilder pb = new ProcessBuilder(failing.toArray(new String[failing.size()]));
 			pb.redirectOutput();
 			pb.redirectErrorStream(true);
 			pb.directory(new File((ConfigurationProperties.getProperty("location"))));
 			
 			long t_start = System.currentTimeMillis();
 			p = pb.start();
-			p.waitFor(ConfigurationProperties.getPropertyInt("tmax2"),TimeUnit.MILLISECONDS);
+			p.waitFor(ConfigurationProperties.getPropertyInt("tmax1"),TimeUnit.MILLISECONDS);
 			long t_end = System.currentTimeMillis();
 			
-			log.debug("Execution time " + ((t_end - t_start) / 1000) + " seconds");
-			
-			long t2 = System.currentTimeMillis();
-			currentStats.time1Validation.add((t2 - t1));
+			currentStats.time1Validation.add((t_end - t_start));
 			currentStats.passFailingval1++;
 			
-			TestResult trregression = getTestResult(p);
+			TestResult trfailing = getTestResult(p);
 			p.destroy();
-			if (trregression == null) {
-				currentStats.unfinishValidation++;
+			if (trfailing == null) {
+				log.debug("**The validation 1 have not finished well**");
 				return null;
 			} else {
-				log.debug(trregression);
-				currentStats.numberOfTestcasesExecutedval2 += trregression.casesExecuted;
-				currentStats.numberOfRegressionTestCases = trregression.casesExecuted;
-				return new TestCasesProgramValidationResult(trregression, trregression.wasSuccessful(),
-						(trregression != null));
+				currentStats.numberOfTestcasesExecutedval1 += trfailing.casesExecuted;
+				currentStats.numberOfFailingTestCase = trfailing.casesExecuted;
+				
+				if (trfailing.wasSuccessful() && Boolean.valueOf(ConfigurationProperties.getProperty("executeRegression"))) {
+					log.info("Failing test case successed and run regression");
+					currentStats.numberOfRegressionTestExecution++;
+					currentStats.passFailingval2++;
+					
+					List<String> command = new ArrayList<String>();
+					command.add(jvmPath);
+					command.add("-Xmx2048m");
+					command.add("-cp");
+					command.add(classpath);
+					command.add("JUnitCore_" + sampleTestId);
+					
+					pb = new ProcessBuilder(command.toArray(new String[command.size()]));
+					pb.redirectOutput();
+					pb.redirectErrorStream(true);
+					pb.directory(new File((ConfigurationProperties.getProperty("location"))));
+					
+					t_start = System.currentTimeMillis();
+					p = pb.start();
+					p.waitFor(ConfigurationProperties.getPropertyInt("tmax2"),TimeUnit.MILLISECONDS);
+					t_end = System.currentTimeMillis();
+					
+					log.debug("Execution time " + ((t_end - t_start) / 1000) + " seconds");
+					
+					TestResult trregression = getTestResult(p);
+					p.destroy();
+					
+					return new TestCasesProgramValidationResult(trregression, trregression.wasSuccessful(),
+							(trregression != null));
+				} else {
+					
+					log.info("Failing test case failed");
+					return new TestCasesProgramValidationResult(trfailing, trfailing.wasSuccessful(), false);
+				}
 			}
-			
-			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -153,7 +179,6 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 			int failing = 0;
 			log.info("Analyzing Results...");
 			while ((line = in.readLine()) != null) {
-				log.info(line);
 				String[] split = line.split("\t");
 				if (!(split.length == 2 || split.length == 3)) continue;
 				if (split[1].equals("fail") || split.equals("pass")) total++;
