@@ -31,9 +31,9 @@ public class FinderTestCases {
 			tr.add(tcr);
 		}
 		log.info("Show the test classes found");
-		for (String testClass : tr) {
-			log.info(testClass);
-		}
+//		for (String testClass : tr) {
+//			log.info(testClass);
+//		}
 		projectFacade.getProperties().setRegressionCases(tr);
 	}
 
