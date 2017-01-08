@@ -2,6 +2,7 @@ package fr.inria.astor.core.validation.validators;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -154,7 +155,7 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 			while ((line = in.readLine()) != null) {
 				log.info(line);
 				String[] split = line.split("\t");
-				if (!(split.length == 2)) continue;
+				if (!(split.length == 2 || split.length == 3)) continue;
 				if (split[1].equals("fail") || split.equals("pass")) total++;
 				if (split[1].equals("fail")) {
 					failing++;
