@@ -150,8 +150,9 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 		try {
 			int total = 0;
 			int failing = 0;
-			
+			log.info("Analyzing Results...");
 			while ((line = in.readLine()) != null) {
+				log.info(line);
 				String[] split = line.split("\t");
 				if (!(split.length == 2)) continue;
 				if (split[1].equals("fail") || split.equals("pass")) total++;
