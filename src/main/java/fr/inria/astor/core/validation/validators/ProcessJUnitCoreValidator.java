@@ -54,6 +54,7 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 			failing.add("-Xmx2048m");
 			failing.add("-cp");
 			failing.add(classpath);
+			System.out.println(classpath);
 			failing.add("JUnitCore_" + sampleTestId + "_Failing");
 			
 			ProcessBuilder pb = new ProcessBuilder(failing.toArray(new String[failing.size()]));

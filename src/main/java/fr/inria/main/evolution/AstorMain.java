@@ -182,9 +182,8 @@ public class AstorMain extends AbstractMain {
 		} else if (validationArgument.equals("junitCore") && !sampleTestId.equals("0")) {
 			ProcessJUnitCoreValidator validator = new ProcessJUnitCoreValidator(sampleTestId);
 			astorCore.setProgramValidator(validator);
-		} else
-		// if validation is different to default (process)
-		if (!validationArgument.equals("process")) {
+		} else if (!validationArgument.equals("process")) {
+			// if validation is different to default (process)
 			astorCore.setProgramValidator(createProcessValidatorFromArgument(validationArgument));
 		}
 
