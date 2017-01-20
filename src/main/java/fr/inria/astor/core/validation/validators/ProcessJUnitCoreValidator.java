@@ -185,13 +185,13 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 				if (!line.contains("\t")) continue;
 				String[] split = line.split("\t");
 				if (!(split.length == 2 || split.length == 3)) continue;
-				if (split[1].equals("fail") || split.equals("pass")) total++;
+				if (split[1].equals("fail") || split[1].equals("pass")) total++;
 				if (split[1].equals("fail")) {
 					failing++;
 					tr.failTest.add(split[0]);
 				}
 				long end = System.currentTimeMillis();
-				if (end - begin > 1000 * 30) {
+				if ((end - begin) > 1000 * 30) {
 					interrupted = true;
 					break;
 				}
