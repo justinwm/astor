@@ -182,7 +182,7 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 			log.info("Analyzing Results...");
 			boolean interrupted = false;
 			while ((line = in.readLine()) != null) {
-				System.out.println(line);
+				log.info(line);
 				if (!line.contains("\t")) continue;
 				String[] split = line.split("\t");
 				if (!(split.length == 2 || split.length == 3)) continue;
