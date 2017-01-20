@@ -16,5 +16,4 @@ public class JKaliSpace extends OperatorSpace {
 		super.register(new ReplaceReturnOp());
 		super.register(new RemoveOp());
 	}
-	
 }

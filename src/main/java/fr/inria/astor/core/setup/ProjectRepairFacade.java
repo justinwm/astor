@@ -285,7 +285,7 @@ public class ProjectRepairFacade {
 				filtercandidates.add(suspiciousCode);
 			}
 		}
-
+		Collections.sort(filtercandidates, new ComparatorCandidates());
 		return filtercandidates;
 	}
 
