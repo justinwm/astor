@@ -175,11 +175,14 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 		boolean success = false;
 		BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		String line;
+		long begin = System.currentTimeMillis();
 		try {
 			int total = 0;
 			int failing = 0;
 			log.info("Analyzing Results...");
+			boolean interrupted = false;
 			while ((line = in.readLine()) != null) {
+				if (!line.contains("\t")) continue;
 				String[] split = line.split("\t");
 				if (!(split.length == 2 || split.length == 3)) continue;
 				if (split[1].equals("fail") || split.equals("pass")) total++;
@@ -187,8 +190,14 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 					failing++;
 					tr.failTest.add(split[0]);
 				}
+				long end = System.currentTimeMillis();
+				if (end - begin > 1000 * 30) {
+					interrupted = true;
+					break;
+				}
 			}
 			success = true;
+			if (interrupted) success = false;
 			tr.casesExecuted = total;
 			tr.failures = failing;
 		} catch (IOException e) {
