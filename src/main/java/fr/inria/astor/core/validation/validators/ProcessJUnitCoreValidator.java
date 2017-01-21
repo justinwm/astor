@@ -104,7 +104,7 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 					p = pb.start();
 					p.waitFor(ConfigurationProperties.getPropertyInt("tmax2"),TimeUnit.MILLISECONDS);
 					t_end = System.currentTimeMillis();
-					
+					p.exitValue();
 					log.debug("Execution time " + ((t_end - t_start) / 1000) + " seconds");
 					
 					TestResult trregression = getTestResult(p);
