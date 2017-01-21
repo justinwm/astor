@@ -72,8 +72,10 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 			
 			TestResult trfailing = getTestResult(p);
 			p.destroy();
+			log.info("Finish Analyzing Failing Results");
 			if (trfailing == null) {
 				log.debug("**The validation 1 have not finished well**");
+				log.info("**The validation 1 have not finished well**");
 				return null;
 			} else {
 				currentStats.numberOfTestcasesExecutedval1 += trfailing.casesExecuted;
@@ -183,6 +185,11 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 			boolean interrupted = false;
 			while ((line = in.readLine()) != null) {
 				log.info(line);
+				long end = System.currentTimeMillis();
+				if ((end - begin) > 1000 * 30) {
+					interrupted = true;
+					break;
+				}
 				if (!line.contains("\t")) continue;
 				String[] split = line.split("\t");
 				if (!(split.length == 2 || split.length == 3)) continue;
@@ -191,11 +198,8 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 					failing++;
 					tr.failTest.add(split[0]);
 				}
-				long end = System.currentTimeMillis();
-				if ((end - begin) > 1000 * 30) {
-					interrupted = true;
-					break;
-				}
+				
+
 			}
 			success = true;
 			if (interrupted) success = false;
