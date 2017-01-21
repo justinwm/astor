@@ -33,7 +33,7 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 	@Override
 	public ProgramVariantValidationResult validate(ProgramVariant variant, ProjectRepairFacade projectFacade) {
 		// TODO Auto-generated method stub
-		
+		Process p = null;
 		// Execute the regression
 		try {
 			URL[] bc = createClassPath(variant, projectFacade);
@@ -44,7 +44,7 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 			String jvmPath = ConfigurationProperties.getProperty("jvm4testexecution");
 			String classpath = urlArrayToString(bc);
 			
-			Process p = null;
+			
 			jvmPath += File.separator + "java";
 			String systemcp = 	defineInitialClasspath();
 			classpath = systemcp + File.pathSeparator + classpath;
@@ -69,6 +69,8 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 			
 			currentStats.time1Validation.add((t_end - t_start));
 			currentStats.passFailingval1++;
+			
+			p.exitValue();
 			
 			TestResult trfailing = getTestResult(p);
 			p.destroy();
@@ -119,14 +121,26 @@ public class ProcessJUnitCoreValidator extends ProgramValidator {
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			if (p != null)
+				p.destroy();
 			return null;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			if (p != null)
+				p.destroy();
 			return null;
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			if (p != null)
+				p.destroy();
+			return null;
+		} catch (IllegalThreadStateException  ex) {
+			ex.printStackTrace();
+			log.info("The Process has not been terminated yet");
+			if (p != null)
+				p.destroy();
 			return null;
 		}
 
