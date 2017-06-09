@@ -552,7 +552,14 @@ public abstract class AstorCoreEngine {
 				// We analyze all gens
 				if (!ConfigurationProperties.getPropertyBool("allpoints")) {
 					lineNumber = modificationPoint.lineNumber;
-					mutationContent = modificationInstance.getOperationApplied().getClass().toString() + ":" + modificationInstance.getModified().toString();
+					if (modificationInstance.getOperationApplied() != null) {
+						mutationContent = modificationInstance.getOperationApplied().getClass().toString() + ":";	
+					} else mutationContent = "operator:null:";
+					if (modificationInstance.getModified() != null) {
+						mutationContent += modificationInstance.getModified().toString();
+					} else {
+						mutationContent += "null";
+					}
 					break;
 				}
 
@@ -561,6 +568,7 @@ public abstract class AstorCoreEngine {
 				log.debug("---modifPoint " + (nroGen++) + " not mutation generated in  "
 						+ StringUtil.trunc(modificationPoint.getCodeElement().getSignature()));
 				notmut++;
+				mutationContent = "No gen created";
 			}
 		}
 
