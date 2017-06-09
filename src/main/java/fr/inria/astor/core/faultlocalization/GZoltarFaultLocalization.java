@@ -49,7 +49,7 @@ public class GZoltarFaultLocalization implements IFaultLocalization{
 		// GZoltar("C:\\Personal\\develop\\workspaceEvolution\\testProject\\target\\classes");
 
 		File projLocationFile =  new File(ConfigurationProperties.getProperty("location"));
-		String projLocation =projLocationFile.getAbsolutePath();
+		String projLocation = projLocationFile.getAbsolutePath();
 		logger.debug("Gzoltar run over: "+projLocation + " , does it exist? "+projLocationFile.exists());
 		
 		

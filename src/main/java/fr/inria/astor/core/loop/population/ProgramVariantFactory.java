@@ -239,6 +239,7 @@ public class ProgramVariantFactory {
 			modifPoint.setSuspicious(suspiciousCode);
 			modifPoint.setClonedClass(ctclasspointed);
 			modifPoint.setCodeElement(ctElement);
+			modifPoint.lineNumber = suspiciousCode.getLineNumber();
 			modifPoint.setContextOfModificationPoint(contextOfPoint);
 			suspGen.add(modifPoint);
 			log.debug("--ModifPoint:" + ctElement.getClass().getSimpleName() + ", suspValue "

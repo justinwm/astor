@@ -25,6 +25,8 @@ public class ModificationPoint {
 
 	public int identified = 0;
 	
+	public int lineNumber = 0;
+	
 	protected int generation = -1;
 
 	public ModificationPoint() {

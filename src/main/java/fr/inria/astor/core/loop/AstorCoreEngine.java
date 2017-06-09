@@ -513,8 +513,12 @@ public abstract class AstorCoreEngine {
 		// For each gen of the program instance
 		List<ModificationPoint> modificationPointsToProcess = getGenList(variant);
 		//log.debug("modifPointsToProcess " + modificationPointsToProcess);
+		
+		int lineNumber = -1;
+		String mutationContent = "";
 		for (ModificationPoint modificationPoint : modificationPointsToProcess) {
 			// tp refactor
+			
 			modificationPoint.identified = variant.getModificationPoints().indexOf(modificationPoint);
 			log.debug("---analyzing modificationPoint position: " + modificationPoint.identified);
 
@@ -547,6 +551,8 @@ public abstract class AstorCoreEngine {
 				genMutated++;
 				// We analyze all gens
 				if (!ConfigurationProperties.getPropertyBool("allpoints")) {
+					lineNumber = modificationPoint.lineNumber;
+					mutationContent = modificationInstance.getOperationApplied().getClass().toString() + ":" + modificationInstance.getModified().toString();
 					break;
 				}
 
@@ -562,7 +568,8 @@ public abstract class AstorCoreEngine {
 			updateVariantGenList(variant, generation);
 		}
 		
-		log.info("--Summary Creation: for variant " + variant + " gen mutated: " + genMutated + " , gen not mut: "
+		log.info("--Summary Creation: for variant " + variant + " mutated line: " + lineNumber + " mutation content:" 
+				+ mutationContent + " gen mutated: " + genMutated + " , gen not mut: "
 				+ notmut + ", gen not applied  " + notapplied);
 
 		
